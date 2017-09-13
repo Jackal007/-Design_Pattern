@@ -9,6 +9,24 @@
   * Factory
     * Abstract Factory
     * [Simple Factory](simple-factory.md)
+  * [Prototype](prototype.md)
+  * [Builder](builder.md)
+  * [Bridge](bridge.md)
+  * [Decorator](decorator.md)
+  * [Proxy](proxy.md)
+  * [State](state.md)
+  * [Observer](observer.md)
+  * [Stategy](stategy.md)
+  * [Memento](memento.md)
+  * [Composite](composite.md)
+  * [Chain of Responsibility](chain-of-responsibility.md)
+  * [Facade](facade.md)
+  * [Mediator](mediator.md)
+  * [Flyweight](flyweight.md)
+  * [Interpreter](interpreter.md)
+  * [Command](command.md)
+  * [Macro](macro.md)
+  * [Immutable](immutable.md)
 
 
 
