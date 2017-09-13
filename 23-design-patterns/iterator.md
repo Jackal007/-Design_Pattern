@@ -1,4 +1,4 @@
-### Template Pattern 模板模式
+### Template Pattern 迭代器模式
 
 #### 意图
 
