@@ -6,8 +6,8 @@
   * [Adapter](23-design-patterns/adapter.md)
   * [Template](23-design-patterns/template.md)
   * [Iterator](23-design-patterns/iterator.md)
-  * Factory
-    * Abstract Factory
+  * [Factory](23-design-patterns/factory.md)
+    * [Abstract Factory](abstract-factory.md)
     * [Simple Factory](simple-factory.md)
   * [Prototype](prototype.md)
   * [Builder](builder.md)
@@ -27,6 +27,4 @@
   * [Command](command.md)
   * [Macro](macro.md)
   * [Immutable](immutable.md)
-
-
 
