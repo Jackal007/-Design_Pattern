@@ -52,7 +52,6 @@
 
   1. 扩展一个类的功能。 
   2. 动态增加功能，动态撤销。
-
 * ##### 注意事项：
 
   可代替继承。
@@ -65,103 +64,74 @@ RedShapeDecorator 是实现了 ShapeDecorator 的实体类.
 
 DecoratorPatternDemo，我们的演示类使用 RedShapeDecorator 来装饰 Shape 对象。
 
-![](/assets/vvimport.png)
+![](/assets/sdsdimport.png)
 
 ```java
-步骤 1
-创建一个接口。
-Shape.java
-public interface Shape {
-   void draw();
+抽象构件角色
+
+public interface Component {
+    
+    public void sampleOperation();
+    
 }
-步骤 2
-创建实现接口的实体类。
-Rectangle.java
-public class Rectangle implements Shape {
 
-   @Override
-   public void draw() {
-      System.out.println("Shape: Rectangle");
-   }
+　　具体构件角色
+
+
+public class ConcreteComponent implements Component {
+
+    @Override
+    public void sampleOperation() {
+        // 写相关的业务代码
+    }
+
 }
-Circle.java
-public class Circle implements Shape {
 
-   @Override
-   public void draw() {
-      System.out.println("Shape: Circle");
-   }
+　　装饰角色
+
+
+public class Decorator implements Component{
+    private Component component;    //这里体现与代理模式得区别
+    
+    public Decorator(Component component){
+        this.component = component;
+    }
+
+    @Override
+    public void sampleOperation() {
+        // 委派给构件
+        component.sampleOperation();
+    }
+    
 }
-步骤 3
-创建实现了 Shape 接口的抽象装饰类。
-ShapeDecorator.java
-public abstract class ShapeDecorator implements Shape {
-   protected Shape decoratedShape;
+具体装饰角色
 
-   public ShapeDecorator(Shape decoratedShape){
-      this.decoratedShape = decoratedShape;
-   }
 
-   public void draw(){
-      decoratedShape.draw();
-   }    
+public class ConcreteDecoratorA extends Decorator {
+
+    public ConcreteDecoratorA(Component component) {
+        super(component);
+    }
+    
+    @Override
+    public void sampleOperation() {
+　　　　　super.sampleOperation();
+        // 写相关的业务代码
+    }
 }
-步骤 4
-创建扩展了 ShapeDecorator 类的实体装饰类。
-RedShapeDecorator.java
-public class RedShapeDecorator extends ShapeDecorator {
 
-   public RedShapeDecorator(Shape decoratedShape) {
-      super(decoratedShape);        
-   }
+public class ConcreteDecoratorB extends Decorator {
 
-   @Override
-   public void draw() {
-      decoratedShape.draw();           
-      setRedBorder(decoratedShape);
-   }
-
-   private void setRedBorder(Shape decoratedShape){
-      System.out.println("Border Color: Red");
-   }
+    public ConcreteDecoratorB(Component component) {
+        super(component);
+    }
+    
+    @Override
+    public void sampleOperation() {
+　　　　  super.sampleOperation();
+        // 写相关的业务代码
+    }
 }
-步骤 5
-使用 RedShapeDecorator 来装饰 Shape 对象。
-DecoratorPatternDemo.java
-public class DecoratorPatternDemo {
-   public static void main(String[] args) {
-
-      Shape circle = new Circle();
-
-      Shape redCircle = new RedShapeDecorator(new Circle());
-
-      Shape redRectangle = new RedShapeDecorator(new Rectangle());
-      System.out.println("Circle with normal border");
-      circle.draw();
-
-      System.out.println("\nCircle of red border");
-      redCircle.draw();
-
-      System.out.println("\nRectangle of red border");
-      redRectangle.draw();
-   }
-}
-步骤 6
-验证输出。
-Circle with normal border
-Shape: Circle
-
-Circle of red border
-Shape: Circle
-Border Color: Red
-
-Rectangle of red border
-Shape: Rectangle
-Border Color: Red
-```
-
-```
-来自 http://www.runoob.com/design-pattern/decorator-pattern.html;
 ```
 
 
