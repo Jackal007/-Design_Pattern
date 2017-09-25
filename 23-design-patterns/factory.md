@@ -10,6 +10,8 @@
 
 在工厂模式中，我们在创建对象时不会对客户端暴露创建逻辑，并且是通过使用一个共同的接口来指向新创建的对象。
 
+在意于要建造什么（相比于Builder模式，它是要怎么建造一个东西）
+
 #### 适用性
 
 我们明确地计划不同条件下创建不同实例时。
@@ -78,13 +80,13 @@ public class PasswordLogin implements Login {
 public class LoginManager {
     public static Login factory(String type){
         if(type.equals("password")){
-            
+
             return new PasswordLogin();
-            
+
         }else if(type.equals("passcode")){
-            
+
             return new DomainLogin();
-            
+
         }else{
             /**
              * 这里抛出一个自定义异常会更恰当
