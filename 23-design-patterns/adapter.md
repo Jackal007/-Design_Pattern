@@ -166,15 +166,14 @@ class Program
         Target target = new Adapter\(\);
 
         target.Request\(\);
+        Console.Read();
+            }
 ```
 
-Console.Read\(\);
-
 ```
-    }
 
 }
 ```
 
-来自 &lt;[http://www.cnblogs.com/wangjq/archive/2012/07/09/2582485.html&gt](http://www.cnblogs.com/wangjq/archive/2012/07/09/2582485.html&gt);
+来自 &lt;[http://www.cnblogs.com/wangjq/archive/2012/07/09/2582485.html&gt;](http://www.cnblogs.com/wangjq/archive/2012/07/09/2582485.html&gt);
 
