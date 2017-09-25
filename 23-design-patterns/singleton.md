@@ -11,7 +11,9 @@
 * 单例类只能有一个实例。
 * 单例类必须自己创建自己的唯一实例。
 * 单例类必须给所有其他对象提供这一实例
+
 ---
+
 #### 意图
 
 确保每个类只有一个实例，并提供它的全局访问点）
@@ -20,41 +22,30 @@
 
 #### 参与者
 
-Singleton
-
-```
-定义一个Instance操作，允许客户访问它的唯一实例。
-
-Instance是一个类操作。
-```
-
-负责创建它自己的唯一实例。
+* Singleton
+  | 定义一个Instance类操作，负责创建它自己的唯一实例，允许客户访问它的唯一实例。 |
+  | :--- |
 
 #### 效果
 
-###### 优点：
+* ###### 优点：
 
-```
-1、在内存里只有一个实例，减少了内存的开销，尤其是频繁的创建和销毁实例（比如管理学院首页页面缓存）。 
+  ```
+  1、在内存里只有一个实例，减少了内存的开销，尤其是频繁的创建和销毁实例（比如管理学院首页页面缓存）。 
+  2、避免对资源的多重占用（比如写文件操作）。
+  ```
+* ###### 缺点：
 
-2、避免对资源的多重占用（比如写文件操作）。
-```
+  ```
+  没有接口，不能继承，与单一职责原则冲突，一个类应该只关心内部逻辑，而不关心外面怎么样来实例化。
+  ```
+* ###### 使用场景：
 
-###### 缺点：
+  * 要求生产唯一序列号。
 
-```
-没有接口，不能继承，与单一职责原则冲突，一个类应该只关心内部逻辑，而不关心外面怎么样来实例化。
-```
+  * WEB 中的计数器，不用每次刷新都在数据库里加一次，用单例先缓存起来。
 
-###### 使用场景：
-
-```
-1、要求生产唯一序列号。
-
-2、WEB 中的计数器，不用每次刷新都在数据库里加一次，用单例先缓存起来。 
-
-3、创建的一个对象需要消耗的资源过多，比如 I/O 与数据库的连接等。
-```
+  * 创建的一个对象需要消耗的资源过多，比如 I/O 与数据库的连接等。
 
 #### 实现
 
@@ -64,85 +55,40 @@ SingleObject 类提供了一个静态方法，供外界获取它的静态实例�
 
 ![](/assets/singleton.png)
 
+```java
+步骤 1
 创建一个 Singleton 类。
-
 SingleObject.java
-
 public class SingleObject {
 
 //创建 SingleObject 的一个对象
-
-private static SingleObject instance = new SingleObject\(\);
-
+   private static SingleObject instance = new SingleObject();
+   
 //让构造函数为 private，这样该类就不会被实例化
-
-private SingleObject\(\){}
-
+   private SingleObject(){}
+   
 //获取唯一可用的对象
-
-public static SingleObject getInstance\(\){
-
-```
-  return instance;
-```
-
+   public static SingleObject getInstance(){
+      return instance;
+   }
+public void showMessage(){
+      System.out.println("Hello World!");
+   }
 }
-
-public void showMessage\(\){
-
-```
-  System.out.println\("Hello World!"\);
-```
-
-}
-
-}
-
 步骤 2
-
 从 singleton 类获取唯一的对象。
-
 SingletonPatternDemo.java
-
 public class SingletonPatternDemo {
-
-public static void main\(String\[\] args\) {
-
-//不合法的构造函数
-
-```
-  //编译时错误：构造函数 SingleObject\(\) 是不可见的
-
-  //SingleObject object = new SingleObject\(\);
-```
-
-//获取唯一可用的对象
-
-```
-  SingleObject object = SingleObject.getInstance\(\);
-```
-
-//显示消息
-
-```
-  object.showMessage\(\);
-```
-
+   public static void main(String[] args) {
+      SingleObject object = SingleObject.getInstance();
+      object.showMessage();
+   }
 }
+```
 
-}
+#### 单例模式的几种实现方式
 
-步骤 3
-
-验证输出。
-
-Hello World!
-
-单例模式的几种实现方式
-
-单例模式的实现有多种方式，如下所示：
-
-1、懒汉式，线程不安全
+##### 1、懒汉式，线程不安全
 
 是否 Lazy 初始化：是
 
@@ -156,33 +102,27 @@ Hello World!
 
 代码实例：
 
-public class Singleton {
-
 ```
+public class Singleton {
 private static Singleton instance;  
 
-private Singleton \(\){}  
+private Singleton (){}  
 
 
+public static Singleton getInstance() {  
 
-public static Singleton getInstance\(\) {  
-
-if \(instance == null\) {  
-
-    instance = new Singleton\(\);  
-
+if (instance == null) {  
+    instance = new Singleton();  
 }  
 
 return instance;  
-
+}
 }
 ```
 
-}
-
 接下来介绍的几种实现方式都支持多线程，但是在性能上有所差异。
 
-2、懒汉式，线程安全
+##### 2、懒汉式，线程安全
 
 是否 Lazy 初始化：是
 
@@ -200,27 +140,18 @@ getInstance\(\) 的性能对应用程序不是很关键（该方法使用不太�
 
 代码实例：
 
-public class Singleton {
-
+```java
+public class Singleton {  
+    private static Singleton instance;  
+    private Singleton (){}  
+    public static synchronized Singleton getInstance() {  
+    if (instance == null) {  
+        instance = new Singleton();  
+    }  
+    return instance;  
+    }  
+} 
 ```
-private static Singleton instance;  
-
-private Singleton \(\){}  
-
-public static synchronized Singleton getInstance\(\) {  
-
-if \(instance == null\) {  
-
-    instance = new Singleton\(\);  
-
-}  
-
-return instance;  
-
-}
-```
-
-}
 
 3、饿汉式
 
@@ -240,21 +171,15 @@ return instance;
 
 代码实例：
 
-public class Singleton {
-
+```java
+public class Singleton {  
+    private static Singleton instance = new Singleton();  
+    private Singleton (){}  
+    public static Singleton getInstance() {  
+    return instance;  
+    }  
+} 
 ```
-private static Singleton instance = new Singleton\(\);  
-
-private Singleton \(\){}  
-
-public static Singleton getInstance\(\) {  
-
-return instance;  
-
-}
-```
-
-}
 
 4、双检锁/双重校验锁（DCL，即 double-checked locking）
 
@@ -272,35 +197,22 @@ getInstance\(\) 的性能对应用程序很关键。
 
 代码实例：
 
-public class Singleton {
-
-```
-private volatile static Singleton singleton;  
-
-private Singleton \(\){}  
-
-public static Singleton getSingleton\(\) {  
-
-if \(singleton == null\) {  
-
-    synchronized \(Singleton.class\) {  
-
-    if \(singleton == null\) {  
-
-        singleton = new Singleton\(\);  
-
+```java
+public class Singleton {  
+    private volatile static Singleton singleton;  
+    private Singleton (){}  
+    public static Singleton getSingleton() {  
+    if (singleton == null) {  
+        synchronized (Singleton.class) {  
+        if (singleton == null) {  
+            singleton = new Singleton();  
+        }  
+        }  
     }  
-
+    return singleton;  
     }  
-
-}  
-
-return singleton;  
-
-}
+} 
 ```
-
-}
 
 5、登记式/静态内部类
 
@@ -354,17 +266,9 @@ JDK 版本：JDK1.5 起
 
 代码实例：
 
-public enum Singleton {
+```java
 
 ```
-INSTANCE;  
-
-public void whateverMethod\(\) {  
-
-}
-```
-
-}
 
 经验之谈：一般情况下，不建议使用第 1 种和第 2 种懒汉方式，建议使用第 3 种饿汉方式。只有在要明确实现 lazy loading 效果时，才会使用第 5 种登记方式。如果涉及到反序列化创建对象时，可以尝试使用第 6 种枚举方式。如果有其他特殊的需求，可以考虑使用第 4 种双检锁方式。
 
