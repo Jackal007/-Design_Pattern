@@ -2,7 +2,7 @@
 
 属于**创建型模式**，它提供了一种创建对象的最佳方式。
 
-又叫静态工厂方法模式（Static FactoryMethod Pattern），但其实根本就不算是一种设计模式。
+又叫**静态**工厂方法模式（Static FactoryMethod Pattern），但其实根本就不算是一种设计模式。
 
 ---
 
