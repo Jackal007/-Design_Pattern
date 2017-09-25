@@ -6,16 +6,12 @@
 
 这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保只有单个对象被创建。这个类提供了一种访问其唯一的对象的方式，可以直接访问，不需要实例化该类的对象。
 
-注意：
+**注意：**
 
-```
-1、单例类只能有一个实例。
-
-2、单例类必须自己创建自己的唯一实例。
-
-3、单例类必须给所有其他对象提供这一实例
-```
-
+* 单例类只能有一个实例。
+* 单例类必须自己创建自己的唯一实例。
+* 单例类必须给所有其他对象提供这一实例
+---
 #### 意图
 
 确保每个类只有一个实例，并提供它的全局访问点）
@@ -179,7 +175,7 @@ if \(instance == null\) {
 
 return instance;  
 
-}  
+}
 ```
 
 }
@@ -221,7 +217,7 @@ if \(instance == null\) {
 
 return instance;  
 
-}  
+}
 ```
 
 }
@@ -255,7 +251,7 @@ public static Singleton getInstance\(\) {
 
 return instance;  
 
-}  
+}
 ```
 
 }
@@ -301,7 +297,7 @@ if \(singleton == null\) {
 
 return singleton;  
 
-}  
+}
 ```
 
 }
@@ -335,7 +331,7 @@ public static final Singleton getInstance\(\) {
 
 return SingletonHolder.INSTANCE;  
 
-}  
+}
 ```
 
 }
@@ -365,12 +361,12 @@ INSTANCE;
 
 public void whateverMethod\(\) {  
 
-}  
+}
 ```
 
 }
 
 经验之谈：一般情况下，不建议使用第 1 种和第 2 种懒汉方式，建议使用第 3 种饿汉方式。只有在要明确实现 lazy loading 效果时，才会使用第 5 种登记方式。如果涉及到反序列化创建对象时，可以尝试使用第 6 种枚举方式。如果有其他特殊的需求，可以考虑使用第 4 种双检锁方式。
 
-来自 &lt;[http://www.runoob.com/design-pattern/singleton-pattern.html&gt](http://www.runoob.com/design-pattern/singleton-pattern.html&gt);
+来自 &lt;[http://www.runoob.com/design-pattern/singleton-pattern.html&gt;](http://www.runoob.com/design-pattern/singleton-pattern.html&gt);
 
