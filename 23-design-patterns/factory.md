@@ -119,5 +119,5 @@ public class Test {
 }
 ```
 
-来自 &lt;[http://www.cnblogs.com/java-my-life/archive/2012/03/22/2412308.html&gt;](http://www.cnblogs.com/java-my-life/archive/2012/03/22/2412308.html&gt);
+
 
