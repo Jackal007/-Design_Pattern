@@ -123,7 +123,7 @@ public class IntelFactory implements AbstractFactory {
     }
 
 }
- 
+
 public class AmdFactory implements AbstractFactory {
 
     @Override
@@ -165,11 +165,11 @@ public class ComputerEngineer {
     private void prepareHardwares(AbstractFactory af){
         //这里要去准备CPU和主板的具体实现，为了示例简单，这里只准备这两个
         //可是，装机工程师并不知道如何去创建，怎么办呢？
-        
+
         //直接找相应的工厂获取
         this.cpu = af.createCpu();
         this.mainboard = af.createMainboard();
-        
+
         //测试配件是否好用
         this.cpu.calculate();
         this.mainboard.installCPU();
@@ -190,9 +190,12 @@ public class Client {
 }
 ```
 
+---
+
 * ###### 简单工厂：
 
   工厂类直接实现，一个产品抽象类，一个工厂类可以产生多种产品
+
 * ###### 工厂方法：
 
   一个抽象工厂类，一个产品抽象类，一个工厂类产生一种产品
@@ -200,6 +203,12 @@ public class Client {
 * ###### 抽象工厂：
 
   一个抽象工厂类，多个产品抽象类。一个工厂类可以产生一系列产品族的产品
+
+---
+
+* 抽象工程关键在于产品之间的抽象关系，所以至少要两个产品；工厂方法在于生成产品，不关注产品间的关系，所以可以只生成一个产品。
+* 抽象工厂中客户端把产品的抽象关系理清楚，在最终使用的时候，一般使用客户端（和其接口），产品之间的关系是被封装固定的；而工厂方法是在最终使用的时候，**使用产品本身**（和其接口）。
+* 抽象工厂的工厂是类；工厂方法的工厂是方法。
 
 
 
