@@ -1,328 +1,121 @@
-### Factory method
+### Simple Factory Pattern 简单工厂模式
 
-Name 	工厂方法模式是类的创建模式，又叫做虚拟构造子\(Virtual Constructor\)模式或者多态性工厂（Polymorphic Factory）模式。
+属于**创建型模式**，它提供了一种创建对象的最佳方式。
 
-意图	定义一个创建对象的接口，让其子类自己决定实例化哪一个工厂类，工厂模式使其创建过程延迟到子类进行。
+又叫静态工厂方法模式（Static FactoryMethod Pattern），但其实根本就不算是一种设计模式。
 
-	主要解决接口选择的问题。
+---
 
-适用性	
+#### 意图
 
-参与者	抽象工厂（ExportFactory）：
+在工厂模式中，我们在创建对象时不会对客户端暴露创建逻辑，并且是通过使用一个共同的接口来指向新创建的对象。
 
-	        担任这个角色的是工厂方法模式的核心，任何在模式中创建对象的工厂类必须实现这个接口。在实际的系统中，这个角色也常常使用抽象类实现。
+#### 适用性
 
-	
+我们明确地计划不同条件下创建不同实例时。
 
-	具体工厂（ExportHtmlFactory、ExportPdfFactory）：
+###### 使用场景：
+
+1. 日志记录器：记录可能记录到本地硬盘、系统事件、远程服务器等，用户可以选择记录日志到什么地方。 
+2. 数据库访问，当用户不知道最后系统采用哪一类数据库，以及数据库可能有变化时。 
+3. 设计一个连接服务器的框架，需要三个协议，"POP3"、"IMAP"、"HTTP"，可以把这三个作为产品类，共同实现一个接口。
 
-	        担任这个角色的是实现了抽象工厂接口的具体JAVA类。具体工厂角色含有与业务密切相关的逻辑，并且受到使用者的调用以创建导出类（如：ExportStandardHtmlFile）。
+#### 参与者
 
-	
+![](/assets/factory.png)
 
-	抽象导出（ExportFile）角色：
+#### 效果
 
-	        工厂方法模式所创建的对象的超类，也就是所有导出类的共同父类或共同拥有的接口。在实际的系统中，这个角色也常常使用抽象类实现。
+* ##### 优点：
 
-	
+  1. 一个调用者想创建一个对象，只要知道其名称就可以了。 
+  2. 扩展性高，如果想增加一个产品，只要扩展一个工厂类就可以。 
+  3. 屏蔽产品的具体实现，调用者只关心产品的接口。
+* ##### 缺点：
 
-	具体导出（ExportStandardHtmlFile等）：
+  每次增加一个产品时，都需要增加一个具体类和对象实现工厂，使得系统中类的个数成倍增加，在一定程度上增加了系统的复杂度，同时也增加了系统具体类的依赖。这并不是什么好事。
 
-	        这个角色实现了抽象导出（ExportFile）角色所声明的接口，工厂方法模式所创建的每一个对象都是某个具体导出角色的实例。
+#### 实现
 
-效果	
+就拿登录功能来说，假如应用系统需要支持多种登录方式如：口令认证、域认证（口令认证通常是去数据库中验证用户，而域认证则是需要到微软的域中验证用户）。那么自然的做法就是建立一个各种登录方式都适用的接口，如下图所示：
 
-实现	相信很多人都做过导入导出功能，就拿导出功能来说。有这么一个需求：XX系统需要支持对数据库中的员工薪资进行导出，并且支持多种格式如：HTML、CSV、PDF等，每种格式导出的结构有所不同，比如：财务跟其他人对导出薪资的HTML格式要求可能会不一样，因为财务可能需要特定的格式方便核算或其他用途。
+![](/assets/factory2.png)
 
-	如果使用简单工厂模式，则工厂类必定过于臃肿。因为简单工厂模式只有一个工厂类，它需要处理所有的创建的逻辑。假如以上需求暂时只支持3种导出的格式以及2种导出的结构，那工厂类则需要6个if else来创建6种不同的类型。如果日后需求不断增加，则后果不堪设想。
+```java
+public interface Login {
+    //登录验证
+    public boolean verify(String name , String password);
+}
 
-	这时候就需要工厂方法模式来处理以上需求。在工厂方法模式中，核心的工厂类不再负责所有的对象的创建，而是将具体创建的工作交给子类去做。这个核心类则摇身一变，成为了一个抽象工厂角色，仅负责给出具体工厂子类必须实现的接口，而不接触哪一个类应当被实例化这种细节。
+public class DomainLogin implements Login {
 
-	这种进一步抽象化的结果，使这种工厂方法模式可以用来允许系统在不修改具体工厂角色的情况下引进新的产品，这一特点无疑使得工厂方法模式具有超过简单工厂模式的优越性。下面就针对以上需求设计UML图：
+    @Override
+    public boolean verify(String name, String password) {
+        // TODO Auto-generated method stub
+        /**
+         * 业务逻辑
+         */
+        return true;
+    }
 
-	![](/assets/qqimport.png)
+}
 
-	源代码
+public class PasswordLogin implements Login {
 
-	首先是抽象工厂角色源代码。它声明了一个工厂方法，要求所有的具体工厂角色都实现这个工厂方法。参数type表示导出的格式是哪一种结构，如：导出HTML格式有两种结构，一种是标准结构，一种是财务需要的结构。
+    @Override
+    public boolean verify(String name, String password) {
+        // TODO Auto-generated method stub
+        /**
+         * 业务逻辑
+         */
+        return true;
+    }
 
-	public interface ExportFactory {
+}
 
-	public ExportFile factory\(String type\);
+我们还需要一个工厂类LoginManager，根据调用者不同的要求，创建出不同的登录对象并返回。而如果碰到不合法的要求，会返回一个Runtime异常。
 
-	}
+public class LoginManager {
+    public static Login factory(String type){
+        if(type.equals("password")){
+            
+            return new PasswordLogin();
+            
+        }else if(type.equals("passcode")){
+            
+            return new DomainLogin();
+            
+        }else{
+            /**
+             * 这里抛出一个自定义异常会更恰当
+             */
+            throw new RuntimeException("没有找到登录类型");
+        }
+    }
+}
 
-	具体工厂角色类源代码：
+测试类：
 
-	
-
-	public class ExportHtmlFactory implements ExportFactory{
-
-	
-
-	@Override
-
-	public ExportFile factory\(String type\) {
-
-	// TODO Auto-generated method stub
-
-	if\("standard".equals\(type\)\){
-
-	
-
-	return new ExportStandardHtmlFile\(\);
-
-	
-
-	}else if\("financial".equals\(type\)\){
-
-	
-
-	return new ExportFinancialHtmlFile\(\);
-
-	
-
-	}else{
-
-	throw new RuntimeException\("没有找到对象"\);
-
-	}
-
-	}
-
-	
-
-	}
-
-	
-
-	
-
-	
-
-	public class ExportPdfFactory implements ExportFactory {
-
-	
-
-	@Override
-
-	public ExportFile factory\(String type\) {
-
-	// TODO Auto-generated method stub
-
-	if\("standard".equals\(type\)\){
-
-	
-
-	return new ExportStandardPdfFile\(\);
-
-	
-
-	}else if\("financial".equals\(type\)\){
-
-	
-
-	return new ExportFinancialPdfFile\(\);
-
-	
-
-	}else{
-
-	throw new RuntimeException\("没有找到对象"\);
-
-	}
-
-	}
-
-	
-
-	}
-
-	
-
-	抽象导出角色类源代码：
-
-	public interface ExportFile {
-
-	public boolean export\(String data\);
-
-	}
-
-	具体导出角色类源代码，通常情况下这个类会有复杂的业务逻辑。
-
-	
-
-	public class ExportFinancialHtmlFile implements ExportFile{
-
-	
-
-	@Override
-
-	public boolean export\(String data\) {
-
-	// TODO Auto-generated method stub
-
-	/\*\*
-
-	\* 业务逻辑
-
-	\*/
-
-	System.out.println\("导出财务版HTML文件"\);
-
-	return true;
-
-	}
-
-	
-
-	}
-
-	
-
-	
-
-	
-
-	public class ExportFinancialPdfFile implements ExportFile{
-
-	
-
-	@Override
-
-	public boolean export\(String data\) {
-
-	// TODO Auto-generated method stub
-
-	/\*\*
-
-	\* 业务逻辑
-
-	\*/
-
-	System.out.println\("导出财务版PDF文件"\);
-
-	return true;
-
-	}
-
-	
-
-	}
-
-	
-
-	
-
-	
-
-	public class ExportStandardHtmlFile implements ExportFile{
-
-	
-
-	@Override
-
-	public boolean export\(String data\) {
-
-	// TODO Auto-generated method stub
-
-	/\*\*
-
-	\* 业务逻辑
-
-	\*/
-
-	System.out.println\("导出标准HTML文件"\);
-
-	return true;
-
-	}
-
-	
-
-	}
-
-	
-
-	
-
-	
-
-	public class ExportStandardPdfFile implements ExportFile {
-
-	
-
-	@Override
-
-	public boolean export\(String data\) {
-
-	// TODO Auto-generated method stub
-
-	/\*\*
-
-	\* 业务逻辑
-
-	\*/
-
-	System.out.println\("导出标准PDF文件"\);
-
-	return true;
-
-	}
-
-	
-
-	}
-
-	
-
-	客户端角色类源代码：
-
-	
-
-	public class Test {
-
-	
-
-	/\*\*
-
-	\* @param args
-
-	\*/
-
-	public static void main\(String\[\] args\) {
-
-	// TODO Auto-generated method stub
-
-	String data = "";
-
-	ExportFactory exportFactory = new ExportHtmlFactory\(\);
-
-	ExportFile ef = exportFactory.factory\("financial"\);
-
-	ef.export\(data\);
-
-	}
-
-	
-
-	}
-
-	
-
-	
-
-	来自 &lt;http://www.cnblogs.com/java-my-life/archive/2012/03/25/2416227.html&gt; 
-
-	
-
-	
-
-	
-
-	
-
-
-
-
+public class Test {
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        String loginType = "password";
+        String name = "name";
+        String password = "password";
+        Login login = LoginManager.factory(loginType);
+        boolean bool = login.verify(name, password);
+        if (bool) {
+            /**
+             * 业务逻辑
+             */
+        } else {
+            /**
+             * 业务逻辑
+             */
+        }
+    }
+}
+```
+
+来自 &lt;[http://www.cnblogs.com/java-my-life/archive/2012/03/22/2412308.html&gt;](http://www.cnblogs.com/java-my-life/archive/2012/03/22/2412308.html&gt);
 

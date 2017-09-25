@@ -8,7 +8,7 @@
   * [Iterator](23-design-patterns/iterator.md)
   * [Factory](23-design-patterns/factory.md)
     * [Abstract Factory](abstract-factory.md)
-    * [Simple Factory](simple-factory.md)
+    * [Factory Method](factory-method.md)
   * [Prototype](prototype.md)
   * [Builder](builder.md)
   * [Bridge](bridge.md)
