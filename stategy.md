@@ -1,128 +1,202 @@
-### Template Pattern 模板模式
+### Strategy  Pattern 策略模式
 
-#### 
+在策略模式（Strategy Pattern）中，一个类的行为或其算法可以在运行时更改。
 
-Name 	在策略模式（Strategy Pattern）中，一个类的行为或其算法可以在运行时更改。
+属于**行为型模式**。
 
-	属于行为型模式。
+在策略模式中，我们创建表示各种策略的对象和一个行为随着策略对象改变而改变的 context 对象。策略对象改变 context 对象的执行算法。
 
-	在策略模式中，我们创建表示各种策略的对象和一个行为随着策略对象改变而改变的 context 对象。策略对象改变 context 对象的执行算法。
+---
 
-意图	定义一系列的算法,把它们一个个封装起来, 并且使它们可相互替换。
+#### 意图   
 
-适用性	主要解决：
+ 定义一系列的算法,把它们一个个封装起来, 并且使它们可相互替换。
 
-	        在有多种算法相似的情况下，使用 if...else 所带来的复杂和难以维护。
+#### 适用性   
 
-	何时使用：
+ 主要解决：
 
-	        一个系统有许多许多类，而区分它们的只是他们直接的行为。
+        在有多种算法相似的情况下，使用 if...else 所带来的复杂和难以维护。
 
-参与者	环境\(Context\)角色：
+何时使用：
 
-	        持有一个Strategy的引用。
+        一个系统有许多许多类，而区分它们的只是他们直接的行为。
 
-	抽象策略\(Strategy\)角色：
+#### 参与者    
 
-	        这是一个抽象角色，通常由一个接口或抽象类实现。此角色给出所有的具体策略类所需的接口。
+环境\(Context\)角色：
 
-	具体策略\(ConcreteStrategy\)角色：
+        持有一个Strategy的引用。
 
-	        包装了相关的算法或行为。
 
-效果	优点： 
 
-	        1、算法可以自由切换。 
+抽象策略\\(Strategy\\)角色：
 
-	        2、避免使用多重条件判断。 
 
-	        3、扩展性良好。
 
-	缺点： 
+        这是一个抽象角色，通常由一个接口或抽象类实现。此角色给出所有的具体策略类所需的接口。
 
-	        1、策略类会增多。 
 
-	        2、所有策略类都需要对外暴露。
 
-	使用场景： 
+具体策略\\(ConcreteStrategy\\)角色：
 
-	        1、如果在一个系统里面有许多类，它们之间的区别仅在于它们的行为，那么使用策略模式可以动态地让一个对象在许多行为中选择一种行为。 
 
-	        2、一个系统需要动态地在几种算法中选择一种。 
 
-	        3、如果一个对象有很多的行为，如果不用恰当的模式，这些行为就只好使用多重的条件选择语句来实现。
+        包装了相关的算法或行为。
 
-	注意事项：
+效果    优点：
 
-	        如果一个系统的策略多于四个，就需要考虑使用混合模式，解决策略类膨胀的问题。
+```
+        1、算法可以自由切换。 
 
-实现	我们将创建一个定义活动的 Strategy 接口和实现了 Strategy 接口的实体策略类。Context 是一个使用了某种策略的类。
+        2、避免使用多重条件判断。 
 
-	StrategyPatternDemo，我们的演示类使用 Context 和策略对象来演示 Context 在它所配置或使用的策略改变时的行为变化。
+        3、扩展性良好。
 
-	
+缺点： 
 
-	步骤 1
+        1、策略类会增多。 
 
-	创建一个接口。
+        2、所有策略类都需要对外暴露。
 
-	Strategy.java
+使用场景： 
 
-	public interface Strategy {   public int doOperation\(int num1, int num2\);}
+        1、如果在一个系统里面有许多类，它们之间的区别仅在于它们的行为，那么使用策略模式可以动态地让一个对象在许多行为中选择一种行为。 
 
-	步骤 2
+        2、一个系统需要动态地在几种算法中选择一种。 
 
-	创建实现接口的实体类。
+        3、如果一个对象有很多的行为，如果不用恰当的模式，这些行为就只好使用多重的条件选择语句来实现。
 
-	OperationAdd.java
+注意事项：
 
-	public class OperationAdd implements Strategy{   @Override   public int doOperation\(int num1, int num2\) {      return num1 + num2;   }}
+        如果一个系统的策略多于四个，就需要考虑使用混合模式，解决策略类膨胀的问题。
+```
 
-	OperationSubstract.java
+实现    我们将创建一个定义活动的 Strategy 接口和实现了 Strategy 接口的实体策略类。Context 是一个使用了某种策略的类。
 
-	public class OperationSubstract implements Strategy{   @Override   public int doOperation\(int num1, int num2\) {      return num1 - num2;   }}
+```
+StrategyPatternDemo，我们的演示类使用 Context 和策略对象来演示 Context 在它所配置或使用的策略改变时的行为变化。
 
-	OperationMultiply.java
 
-	public class OperationMultiply implements Strategy{   @Override   public int doOperation\(int num1, int num2\) {      return num1 \* num2;   }}
 
-	步骤 3
+步骤 1
 
-	创建 Context 类。
+创建一个接口。
 
-	Context.java
+Strategy.java
 
-	public class Context {   private Strategy strategy;
+public interface Strategy {
+```
 
-	public Context\(Strategy strategy\){      this.strategy = strategy;   }
+public int doOperation\(int num1, int num2\);  
+}
 
-	public int executeStrategy\(int num1, int num2\){      return strategy.doOperation\(num1, num2\);   }}
+```
+步骤 2
 
-	步骤 4
+创建实现接口的实体类。
 
-	使用 Context 来查看当它改变策略 Strategy 时的行为变化。
+OperationAdd.java
 
-	StrategyPatternDemo.java
+public class OperationAdd implements Strategy{
+```
 
-	public class StrategyPatternDemo {   public static void main\(String\[\] args\) {      Context context = new Context\(new OperationAdd\(\)\);		      System.out.println\("10 + 5 = " + context.executeStrategy\(10, 5\)\);
+@Override  
+   public int doOperation\(int num1, int num2\) {  
+      return num1 + num2;  
+   }  
+}
 
-	context = new Context\(new OperationSubstract\(\)\);		      System.out.println\("10 - 5 = " + context.executeStrategy\(10, 5\)\);
+```
+OperationSubstract.java
 
-	context = new Context\(new OperationMultiply\(\)\);		      System.out.println\("10 \* 5 = " + context.executeStrategy\(10, 5\)\);   }}
+public class OperationSubstract implements Strategy{
+```
 
-	步骤 5
+@Override  
+   public int doOperation\(int num1, int num2\) {  
+      return num1 - num2;  
+   }  
+}
 
-	验证输出。
+```
+OperationMultiply.java
 
-	10 + 5 = 1510 - 5 = 510 \* 5 = 50
+public class OperationMultiply implements Strategy{
+```
 
-	
+@Override  
+   public int doOperation\(int num1, int num2\) {  
+      return num1 \* num2;  
+   }  
+}
 
-	来自 &lt;http://www.runoob.com/design-pattern/strategy-pattern.html&gt; 
+```
+步骤 3
 
-	
+创建 Context 类。
 
-	
+Context.java
+
+public class Context {
+```
+
+private Strategy strategy;
+
+```
+public Context\(Strategy strategy\){
+  this.strategy = strategy;
+```
+
+}
+
+```
+public int executeStrategy\(int num1, int num2\){
+  return strategy.doOperation\(num1, num2\);
+```
+
+}  
+}
+
+```
+步骤 4
+
+使用 Context 来查看当它改变策略 Strategy 时的行为变化。
+
+StrategyPatternDemo.java
+
+public class StrategyPatternDemo {
+```
+
+public static void main\(String\[\] args\) {  
+      Context context = new Context\(new OperationAdd\(\)\);  
+      System.out.println\("10 + 5 = " + context.executeStrategy\(10, 5\)\);
+
+```
+context = new Context\(new OperationSubstract\(\)\);        
+  System.out.println\("10 - 5 = " + context.executeStrategy\(10, 5\)\);
+
+context = new Context\(new OperationMultiply\(\)\);        
+  System.out.println\("10 \* 5 = " + context.executeStrategy\(10, 5\)\);
+```
+
+}  
+}
+
+```
+步骤 5
+
+验证输出。
+
+10 + 5 = 15
+```
+
+10 - 5 = 5  
+10 \* 5 = 50
+
+```
+来自 &lt;http://www.runoob.com/design-pattern/strategy-pattern.html&gt; 
+```
 
 
 
