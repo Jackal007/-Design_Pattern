@@ -70,9 +70,9 @@ DecoratorPatternDemo，我们的演示类使用 RedShapeDecorator 来装饰 Shap
 抽象构件角色
 
 public interface Component {
-    
+
     public void sampleOperation();
-    
+
 }
 
 　　具体构件角色
@@ -92,7 +92,7 @@ public class ConcreteComponent implements Component {
 
 public class Decorator implements Component{
     private Component component;    //这里体现与代理模式得区别
-    
+
     public Decorator(Component component){
         this.component = component;
     }
@@ -102,7 +102,7 @@ public class Decorator implements Component{
         // 委派给构件
         component.sampleOperation();
     }
-    
+
 }
 具体装饰角色
 
@@ -112,7 +112,7 @@ public class ConcreteDecoratorA extends Decorator {
     public ConcreteDecoratorA(Component component) {
         super(component);
     }
-    
+
     @Override
     public void sampleOperation() {
 　　　　　super.sampleOperation();
@@ -125,7 +125,7 @@ public class ConcreteDecoratorB extends Decorator {
     public ConcreteDecoratorB(Component component) {
         super(component);
     }
-    
+
     @Override
     public void sampleOperation() {
 　　　　  super.sampleOperation();
